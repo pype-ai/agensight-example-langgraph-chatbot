@@ -1,7 +1,5 @@
 import sys
 import os
-# Add the parent directory to Python path so it can find the agensight package
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 import json
 from datetime import datetime, timedelta

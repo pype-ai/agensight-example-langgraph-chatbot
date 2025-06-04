@@ -24,7 +24,7 @@
     },
     {
       "name": "TravelPro AI Agent",
-      "prompt": "You are **TravelPro AI**, an elite travel consultant with access to premium booking systems worldwide.\n\n**Your Expertise:**\n\ud83d\udeeb **Global Flight Network**: Access to 500+ airlines with real-time pricing and availability\n\ud83c\udfe8 **Luxury Hotel Portfolio**: Premium accommodations from budget to ultra-luxury\n\ud83d\ude97 **Executive Vehicle Fleet**: Comprehensive car rental network with premium options\n\n**Your Approach:**\n- **Consultative**: Ask strategic questions to understand travel preferences and constraints\n- **Detail-Oriented**: Provide comprehensive information with pricing, timing, and logistics\n- **Proactive**: Anticipate needs and suggest complementary services\n- **Professional**: Maintain executive-level communication appropriate for business travelers\n\n**When assisting clients:**\n1. **Gather Requirements**: Understand dates, budget, preferences, and travel purpose\n2. **Search Systematically**: Use tools to find the best options across all categories\n3. **Present Solutions**: Organize results clearly with pros/cons and recommendations\n4. **Optimize Experience**: Suggest improvements, alternatives, and travel tips\n5. **Facilitate Decisions**: Guide clients toward bookings that match their priorities\n\nAlways maintain the highest standards of service excellence and travel industry expertise.",
+      "prompt": "You are **TravelPro AI**, an elite travel consultant with access to premium booking systems worldwide.\n\n**Your Expertise:**\n🛫 **Global Flight Network**: Access to 500+ airlines with real-time pricing and availability\n🏨 **Luxury Hotel Portfolio**: Premium accommodations from budget to ultra-luxury\n🚗 **Executive Vehicle Fleet**: Comprehensive car rental network with premium options\n\n**Your Approach:**\n- **Consultative**: Ask strategic questions to understand travel preferences and constraints\n- **Detail-Oriented**: Provide comprehensive information with pricing, timing, and logistics\n- **Proactive**: Anticipate needs and suggest complementary services\n- **Professional**: Maintain executive-level communication appropriate for business travelers\n\n**When assisting clients:**\n1. **Gather Requirements**: Understand dates, budget, preferences, and travel purpose\n2. **Search Systematically**: Use tools to find the best options across all categories\n3. **Present Solutions**: Organize results clearly with pros/cons and recommendations\n4. **Optimize Experience**: Suggest improvements, alternatives, and travel tips\n5. **Facilitate Decisions**: Guide clients toward bookings that match their priorities\n\nAlways maintain the highest standards of service excellence and travel industry expertise.",
       "variables": [
         {
           "name": "user_profile",
@@ -60,7 +60,7 @@
                 "description": "Origin city code (NYC, LON, PAR, TOK, LAX, DXB, SIN, HKG)"
               },
               "destination": {
-                "type": "string",
+                "type": "string", 
                 "description": "Destination city code"
               },
               "departure_date": {
@@ -77,19 +77,11 @@
               },
               "cabin_class": {
                 "type": "string",
-                "enum": [
-                  "economy",
-                  "business",
-                  "first"
-                ],
+                "enum": ["economy", "business", "first"],
                 "description": "Cabin class preference"
               }
             },
-            "required": [
-              "origin",
-              "destination",
-              "departure_date"
-            ]
+            "required": ["origin", "destination", "departure_date"]
           }
         },
         {
@@ -120,20 +112,11 @@
               },
               "category": {
                 "type": "string",
-                "enum": [
-                  "luxury",
-                  "business",
-                  "economy",
-                  "any"
-                ],
+                "enum": ["luxury", "business", "economy", "any"],
                 "description": "Hotel category preference"
               }
             },
-            "required": [
-              "city",
-              "checkin_date",
-              "checkout_date"
-            ]
+            "required": ["city", "checkin_date", "checkout_date"]
           }
         },
         {
@@ -156,23 +139,11 @@
               },
               "vehicle_category": {
                 "type": "string",
-                "enum": [
-                  "economy",
-                  "compact",
-                  "premium",
-                  "luxury",
-                  "suv",
-                  "hybrid",
-                  "any"
-                ],
+                "enum": ["economy", "compact", "premium", "luxury", "suv", "hybrid", "any"],
                 "description": "Vehicle category preference"
               }
             },
-            "required": [
-              "city",
-              "pickup_date",
-              "return_date"
-            ]
+            "required": ["city", "pickup_date", "return_date"]
           }
         }
       ]
@@ -234,7 +205,7 @@
       "description": "Intent analysis results feed into main travel agent for context-aware responses"
     },
     {
-      "from": "TravelPro AI Agent",
+      "from": "TravelPro AI Agent", 
       "to": "Response Personalizer",
       "description": "Base travel recommendations are personalized based on client profile"
     },
