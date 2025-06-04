@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 # Initialize Agensight with prod mode and project ID
 
 load_dotenv()  # Load environment variables from .env file
+
 init(
     name="travel-assistant-pro",
     mode="local",
