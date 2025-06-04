@@ -1,16 +1,247 @@
 {
   "agents": [
     {
-      "name": "Default Agent",
-      "prompt": "You are a helpful AI assistant.",
-      "variables": [],
+      "name": "Travel Intent Analyzer",
+      "prompt": "You are a travel industry analyst specializing in extracting comprehensive travel requirements from client messages.\n\nYour role:\n- Extract travel intent (flight_search, hotel_booking, car_rental, multi_service_planning, travel_consultation)\n- Identify travel purpose (business, leisure, mixed, urgent, routine)\n- Assess complexity level (simple, moderate, complex, enterprise)\n- Determine missing critical information (dates, destination, budget, preferences, passenger_count)\n- Profile client segment (budget, business, luxury, family, solo)\n- Evaluate decision urgency (immediate, within_days, flexible)\n\nAlways respond in structured JSON format with clear categorization of requirements and next steps needed.",
+      "variables": [
+        {
+          "name": "client_message",
+          "description": "The client's travel request message",
+          "type": "string"
+        },
+        {
+          "name": "conversation_context",
+          "description": "Previous conversation history for context",
+          "type": "array"
+        }
+      ],
       "modelParams": {
-        "model": "gpt-4o-mini",
-        "temperature": 0.7,
-        "top_p": 1.0,
-        "max_tokens": 2000
+        "model": "gpt-4o",
+        "temperature": 0.1,
+        "top_p": 0.9,
+        "max_tokens": 1000
+      }
+    },
+    {
+      "name": "TravelPro AI Agent",
+      "prompt": "You are **TravelPro AI**, an elite travel consultant with access to premium booking systems worldwide.\n\n**Your Expertise:**\n\ud83d\udeeb **Global Flight Network**: Access to 500+ airlines with real-time pricing and availability\n\ud83c\udfe8 **Luxury Hotel Portfolio**: Premium accommodations from budget to ultra-luxury\n\ud83d\ude97 **Executive Vehicle Fleet**: Comprehensive car rental network with premium options\n\n**Your Approach:**\n- **Consultative**: Ask strategic questions to understand travel preferences and constraints\n- **Detail-Oriented**: Provide comprehensive information with pricing, timing, and logistics\n- **Proactive**: Anticipate needs and suggest complementary services\n- **Professional**: Maintain executive-level communication appropriate for business travelers\n\n**When assisting clients:**\n1. **Gather Requirements**: Understand dates, budget, preferences, and travel purpose\n2. **Search Systematically**: Use tools to find the best options across all categories\n3. **Present Solutions**: Organize results clearly with pros/cons and recommendations\n4. **Optimize Experience**: Suggest improvements, alternatives, and travel tips\n5. **Facilitate Decisions**: Guide clients toward bookings that match their priorities\n\nAlways maintain the highest standards of service excellence and travel industry expertise.",
+      "variables": [
+        {
+          "name": "user_profile",
+          "description": "Client profile with preferences, tier, and travel history",
+          "type": "object"
+        },
+        {
+          "name": "search_context",
+          "description": "Current search parameters and requirements",
+          "type": "object"
+        },
+        {
+          "name": "conversation_history",
+          "description": "Previous interactions and discovered preferences",
+          "type": "array"
+        }
+      ],
+      "modelParams": {
+        "model": "gpt-4o",
+        "temperature": 0.1,
+        "top_p": 0.95,
+        "max_tokens": 3000
+      },
+      "tools": [
+        {
+          "name": "search_flights_inventory",
+          "description": "Search comprehensive flight inventory with real airline data including pricing, schedules, and availability",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "origin": {
+                "type": "string",
+                "description": "Origin city code (NYC, LON, PAR, TOK, LAX, DXB, SIN, HKG)"
+              },
+              "destination": {
+                "type": "string",
+                "description": "Destination city code"
+              },
+              "departure_date": {
+                "type": "string",
+                "description": "Departure date in YYYY-MM-DD format"
+              },
+              "return_date": {
+                "type": "string",
+                "description": "Return date for round trip (optional)"
+              },
+              "passengers": {
+                "type": "integer",
+                "description": "Number of passengers (default: 1)"
+              },
+              "cabin_class": {
+                "type": "string",
+                "enum": [
+                  "economy",
+                  "business",
+                  "first"
+                ],
+                "description": "Cabin class preference"
+              }
+            },
+            "required": [
+              "origin",
+              "destination",
+              "departure_date"
+            ]
+          }
+        },
+        {
+          "name": "search_hotel_inventory",
+          "description": "Search premium hotel inventory with detailed amenities and business facilities",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "City name (London, Paris, Tokyo, etc.)"
+              },
+              "checkin_date": {
+                "type": "string",
+                "description": "Check-in date in YYYY-MM-DD format"
+              },
+              "checkout_date": {
+                "type": "string",
+                "description": "Check-out date in YYYY-MM-DD format"
+              },
+              "guests": {
+                "type": "integer",
+                "description": "Number of guests (default: 2)"
+              },
+              "budget_max": {
+                "type": "integer",
+                "description": "Maximum budget per night in USD (default: 1000)"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "luxury",
+                  "business",
+                  "economy",
+                  "any"
+                ],
+                "description": "Hotel category preference"
+              }
+            },
+            "required": [
+              "city",
+              "checkin_date",
+              "checkout_date"
+            ]
+          }
+        },
+        {
+          "name": "search_vehicle_fleet",
+          "description": "Search premium vehicle rental fleet with detailed specifications",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "City for rental (London, Paris, Tokyo)"
+              },
+              "pickup_date": {
+                "type": "string",
+                "description": "Pickup date in YYYY-MM-DD format"
+              },
+              "return_date": {
+                "type": "string",
+                "description": "Return date in YYYY-MM-DD format"
+              },
+              "vehicle_category": {
+                "type": "string",
+                "enum": [
+                  "economy",
+                  "compact",
+                  "premium",
+                  "luxury",
+                  "suv",
+                  "hybrid",
+                  "any"
+                ],
+                "description": "Vehicle category preference"
+              }
+            },
+            "required": [
+              "city",
+              "pickup_date",
+              "return_date"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Response Personalizer",
+      "prompt": "You are a luxury travel consultant specializing in personalizing travel recommendations based on client profiles and preferences.\n\nYour role:\n- Enhance base responses with personalized touches\n- Reference previous choices and stated preferences\n- Suggest premium upgrades appropriate for client segment\n- Include insider tips relevant to travel style\n- Maintain professional consultant tone\n\nPersonalization Guidelines:\n- Add relevant personal touches based on profile preferences\n- Reference loyalty programs and tier status\n- Suggest complementary services and upgrades\n- Include location-specific insider knowledge\n- Maintain consistency with client's communication style\n\nReturn enhanced responses that maintain all original information while adding valuable personalized insights.",
+      "variables": [
+        {
+          "name": "base_response",
+          "description": "The original travel recommendation response",
+          "type": "string"
+        },
+        {
+          "name": "client_profile",
+          "description": "Detailed client profile with preferences and history",
+          "type": "object"
+        },
+        {
+          "name": "search_context",
+          "description": "Current search parameters and context",
+          "type": "object"
+        }
+      ],
+      "modelParams": {
+        "model": "gpt-4o",
+        "temperature": 0.3,
+        "top_p": 0.9,
+        "max_tokens": 2500
+      }
+    },
+    {
+      "name": "Session Summarizer",
+      "prompt": "You are a travel consultation analyst specializing in creating comprehensive session summaries for premium travel planning.\n\nYour role:\n- Extract travel preferences discovered during conversation\n- Summarize services explored (flights, hotels, vehicles)\n- Assess decision status and booking readiness\n- Provide consultant notes and recommendations\n- Identify follow-up actions needed\n\nExtract and organize:\n**TRAVEL PREFERENCES DISCOVERED**:\n- Preferred airlines, hotel chains, car types\n- Budget ranges and class preferences\n- Travel dates and flexibility\n- Special requirements or accessibility needs\n\n**SERVICES EXPLORED**:\n- Flights searched (routes, dates, preferences)\n- Hotels considered (locations, amenities, pricing)\n- Vehicles discussed (types, rental periods)\n\n**DECISION STATUS**:\n- Ready to book: [list services]\n- Still deciding: [what needs clarification]\n- Future planning: [upcoming needs mentioned]\n\n**CONSULTANT NOTES**:\n- Client communication style\n- Key priorities identified\n- Recommended follow-up actions\n\nAlways respond in structured JSON format for easy processing and future reference.",
+      "variables": [
+        {
+          "name": "conversation_messages",
+          "description": "Recent conversation messages for analysis",
+          "type": "array"
+        },
+        {
+          "name": "user_profile",
+          "description": "Current user profile and preferences",
+          "type": "object"
+        }
+      ],
+      "modelParams": {
+        "model": "gpt-4o",
+        "temperature": 0.2,
+        "top_p": 0.8,
+        "max_tokens": 1500
       }
     }
   ],
-  "connections": []
+  "connections": [
+    {
+      "from": "Travel Intent Analyzer",
+      "to": "TravelPro AI Agent",
+      "description": "Intent analysis results feed into main travel agent for context-aware responses"
+    },
+    {
+      "from": "TravelPro AI Agent",
+      "to": "Response Personalizer",
+      "description": "Base travel recommendations are personalized based on client profile"
+    },
+    {
+      "from": "TravelPro AI Agent",
+      "to": "Session Summarizer",
+      "description": "Periodic session summarization for context retention and follow-up planning"
+    }
+  ]
 }
