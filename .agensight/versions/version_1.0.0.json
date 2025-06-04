@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "commit_message": "Initial version",
+  "timestamp": "2025-06-04T14:03:44.131153",
+  "config": {
+    "agents": [
+      {
+        "name": "Default Agent",
+        "prompt": "You are a helpful AI assistant.",
+        "variables": [],
+        "modelParams": {
+          "model": "gpt-4o-mini",
+          "temperature": 0.7,
+          "top_p": 1.0,
+          "max_tokens": 2000
+        }
+      }
+    ],
+    "connections": []
+  }
+}
