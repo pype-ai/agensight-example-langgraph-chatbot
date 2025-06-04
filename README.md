@@ -17,9 +17,9 @@ To get started with the agensight-example-langraph-chatbot, follow these steps:
 
 3. **Set your OpenAI API Key in the environment**
    
-   Ensure you have your OpenAI API key set up in your environment. You can do this by exporting it as an environment variable:
+   Ensure you have your OpenAI API key set up in your environment. You can do this by adding it as an environment variable in .env file:
    ```bash
-   export OPENAI_API_KEY='your-openai-api-key'
+   OPENAI_API_KEY='your-openai-api-key'
    ```
    Replace `'your-openai-api-key'` with your actual OpenAI API key.
 
