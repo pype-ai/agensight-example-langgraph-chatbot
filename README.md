@@ -7,7 +7,7 @@ To get started with the agensight-example-langraph-chatbot, follow these steps:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/pype-ai/agensight-example-langgraph-chatbot
    ```
 
 2. **Navigate to the project directory**
